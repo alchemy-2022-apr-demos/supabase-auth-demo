@@ -1,6 +1,6 @@
-const SUPABASE_URL = 'https://ibfimxopxwngijoyxknw.supabase.co';
+const SUPABASE_URL = 'https://nwxkvnsiwauieanvbiri.supabase.co';
 const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNjY4NDQ3MSwiZXhwIjoxOTUyMjYwNDcxfQ.ewbC-sV1ELppz_IP21q0P7QEX_VoDqbi_ZZ1__Uphvs';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzAwMzQzNCwiZXhwIjoxOTUyNTc5NDM0fQ.8XIsU0FANdaNeQnT-DojpTL-GTlTPZ4CYZDEetpFpWc';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -37,4 +37,19 @@ export async function logout() {
     await client.auth.signOut();
 
     return (window.location.href = '/');
+}
+
+export async function fetchPosts() {
+    const response = await client.from('posts').select('*');
+
+    return response.data;
+}
+
+export async function createNewPost(post) {
+    const response = await client.from('posts').insert(post);
+    if (response.data) {
+        return response.data;
+    } else {
+        console.error(response.error);
+    }
 }

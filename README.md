@@ -1,26 +1,73 @@
-## The Golden Rule: 
+# From Scratch Bulletin Board Plan
 
-🦸 🦸‍♂️ `Stop starting and start finishing.` 🏁
+## 1. Database Setup
 
-If you work on more than one feature at a time, you are guaranteed to multiply your bugs and your anxiety.
+-   [ ] Add a new table called `posts`
+-   [ ] Add three columns (title, description, contact) plus any others you want to include. Can all be varchars.
+-   [ ] Copy your key / url into your fetch-utils and add your client code
 
-## Making a plan
+```js
+const SUPABASE_URL = '';
+const SUPABASE_KEY = '';
 
-1) **Make a drawing of your app. Simple "wireframes"** 
-1) **Look at the drawing and name the HTML elements you'll need to realize your vision**
-1) **Look at the drawing and imagine using the app. What _state_ do you need to track?** 
-1) **For each HTML element ask: Why do I need this? (i.e., "we need div to display the results in")** 
-1) **Once we know _why_ we need each element, think about how to implement the "Why" as a "How" (i.e., `resultsEl.textContent = newResults`)**
-1) **Find all the 'events' (user clicks, form submit, on load etc) in your app. Ask one by one, "What happens when" for each of these events. Does any state change? Does any DOM update?**
-1) **Think about how to validate each of your features according to a Definition of Done. (Hint: console.log usually helps here.)**
-1) **Consider what features _depend_ on what other features. Use this dependency logic to figure out what order to complete tasks.**
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+```
 
-Additional considerations:
-- Ask: which of your HTML elements need to be hard coded, and which need to be dynamically generated?
-- Consider your data model. 
-  - What kinds of objects (i.e., Dogs, Friends, Todos, etc) will you need? 
-  - What are the key/value pairs? 
-  - What arrays might you need? 
-  - What needs to live in a persistence layer?
-- Is there some state we need to initialize?
-- Ask: should any of this work be abstracted into functions? (i.e., is the work complicated? can it be resused?)
+-   [ ] Add some rows for testing -[ ] Enable row level security
+
+## 2. Posts Page
+
+-   [ ] TDD a render function for displaying your post information
+-   [ ] Add your `fetchPosts` to `fetch-utils.js`
+-   [ ] Add your policy for selecting data (allow all users)
+
+```js
+export async function fetchPosts() {
+    const response = await client.from('posts').select('*');
+
+    return response.data;
+}
+```
+
+_Validation step: console.log your results to make sure you're getting the data back from the database_
+
+-   [ ] Add an async `loadData` function that you will call immediately to load the data, loop through and render each item on the page
+
+## 3. Auth page
+
+_don't worry about redirects at first_
+
+-   Add your sign in form
+-   Add your signInUser function to `fetchUtils`
+-   Add event listener to form submit
+-   Call function and ensure you get a user back from supabase
+    _repeat for sign up_
+-   Add your redirects
+
+## 4. Create Page
+
+-   [ ] Add your `create` folder, index.html, and create.js
+-   [ ] Add a form for posts in your index.html
+-   [ ] Add form event listener, use FormData to get your data from your form
+        _Validation step: console.log your FormData to make sure you're getting the info correctly_
+-   [ ] Add `createPost` to your `fetch-utils.js`
+
+```js
+export async function createNewPost(post) {
+    const response = await client.from('posts').insert(post);
+    if (response.data) {
+        return response.data;
+    } else {
+        console.error(response.error);
+    }
+}
+```
+
+-   [ ] Call your create function on form submit
+        _Validation step: Confirm new data being added to table in Supabase_
+-   [ ] Add in our redirects
+
+    -   If not logged in, redirect to auth page
+    -   Redirect to home after succesful insert
+
+    ## 5.Add your home page header with links
