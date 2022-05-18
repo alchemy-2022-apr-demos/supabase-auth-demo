@@ -41,6 +41,7 @@ async function onLoad() {
         h2.textContent = post.title;
         p.textContent = post.description;
         div.append(h2, p);
+        div.classList.add('post');
         postsElem.append(div);
     }
     //  check state of user
