@@ -3,17 +3,31 @@ import { getUser } from './fetch-utils.js';
 const postsElem = document.getElementById('posts');
 // checkAuth();
 
+// 2 approaches for dynamic button
+// 1. have 2 separate buttons, hide / show using CSS and classnames
+// 2. have a single button, dynamically add text content and event listener
+
+// -----option 1------
 // handle logout button
-const logoutBtn = document.getElementById('logout');
-logoutBtn.addEventListener('click', async () => {
-    await logout();
-});
+// const logoutBtn = document.getElementById('logout');
+// logoutBtn.addEventListener('click', async () => {
+//     await logout();
+// });
 
 // handle auth button
-const authBtn = document.getElementById('auth');
-authBtn.addEventListener('click', () => {
+// const authBtn = document.getElementById('auth');
+// authBtn.addEventListener('click', () => {
+//     window.location.href = '/auth';
+// });
+
+// -----option 2------
+const headerBtn = document.getElementById('header-btn');
+async function handleLogout() {
+    await logout();
+}
+async function handleAuth() {
     window.location.href = '/auth';
-});
+}
 
 async function onLoad() {
     // load up all your posts
@@ -30,16 +44,30 @@ async function onLoad() {
         postsElem.append(div);
     }
     //  check state of user
+    // option 1
+    // const user = getUser();
+    // if (user) {
+    //     logoutBtn.classList.remove('hide');
+    // } else {
+    //     authBtn.classList.remove('hide');
+    // }
+
+    // option 2
     const user = getUser();
     if (user) {
-        logoutBtn.classList.remove('hide');
+        headerBtn.textContent = 'Logout';
+        headerBtn.addEventListener('click', handleLogout);
+        // this is the exact same thing as above -- one uses a named function
+        // one uses an anonymous arrow function
+        // headerBtn.addEventListener('click', async () => {
+        //     await logout();
+        // });
+        headerBtn.classList.remove('hide');
     } else {
-        authBtn.classList.remove('hide');
+        headerBtn.textContent = 'Sign In / Sign Up';
+        headerBtn.addEventListener('click', handleAuth);
+        headerBtn.classList.remove('hide');
     }
 }
 
 onLoad();
-
-// 2 approaches for dynamic button
-// 1. have 2 separate buttons, hide / show using CSS and classnames
-// 2. have a single button, dynamically add text content and event listener
