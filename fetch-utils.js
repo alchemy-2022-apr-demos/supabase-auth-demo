@@ -13,7 +13,7 @@ export function getUser() {
 export function checkAuth() {
     const user = getUser();
 
-    if (!user) location.replace('/');
+    // if (!user) location.replace('/auth');
 }
 
 // when a user tries to visit a page that calls this function, we automatically redirect the user away from the login page if they are already logged in

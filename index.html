@@ -19,26 +19,14 @@
     <body>
         <header>
             <div class="gutter-right logo">
+                <button class="hide" id="logout">Logout</button>
+                <button class="hide" id="auth">Sign In / Sign Up</button>
                 <img src="./assets/big-logo.png" />
             </div>
         </header>
         <main>
-            <h1>Sign Up User</h1>
-            <form id="sign-up">
-                <label for="email">Email: </label>
-                <input type="email" name="email" id="email" />
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" />
-                <button>Sign Up</button>
-            </form>
-            <h1>Sign In User</h1>
-            <form id="sign-in">
-                <label for="email">Email: </label>
-                <input type="email" name="email" id="email" />
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" />
-                <button>Sign In</button>
-            </form>
+            <h2>Posts</h2>
+            <div id="posts"></div>
         </main>
         <footer>
             <div class="copy gutter-right">&copy; 2021 Alchemy Code Lab</div>
